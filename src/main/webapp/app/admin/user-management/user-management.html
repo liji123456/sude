@@ -1,0 +1,65 @@
+<div>
+    <h2 translate="userManagement.home.title">Users</h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+      <div class="col-md-4">
+          <button class="btn btn-primary" ui-sref="user-management.new">
+              <span class="glyphicon glyphicon-flash"></span> <span translate="userManagement.home.createLabel">Create a new User</span>
+          </button>
+      </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                <th jh-sort-by="id"><span translate="global.field.id">ID</span><span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="login"><span translate="userManagement.login">Login</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="firstName"><span translate="userManagement.firstName">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="station"><span translate="userManagement.station">station</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th></th>
+                <th  jh-sort-by="langKey"> <span translate="userManagement.langKey">Lang Key</span> <span class="glyphicon glyphicon-sort"></span></th>                <th><span translate="userManagement.profiles">Profiles</span></th>                <th jh-sort-by="createdDate"><span translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="lastModifiedBy"><span translate="userManagement.lastModifiedBy">Last Modified By</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="lastModifiedDate"><span translate="userManagement.lastModifiedDate">Last Modified Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in vm.users track by user.id">
+                <td>{{user.id}}</td>
+                <td>{{user.login}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.station}}</td>
+                <td>
+                    <span class="label label-danger" ng-click="vm.setActive(user, true)" ng-show="!user.activated"
+                          translate="userManagement.deactivated" style="cursor: pointer;">Deactivated</span>
+                    <span class="label label-success" ng-click="vm.setActive(user, false)" ng-show="user.activated"
+                          translate="userManagement.activated" style="cursor: pointer;">Activated</span>
+                </td>
+                <td>{{user.langKey}}</td>
+                <td>
+                    <div ng-repeat="authority in user.authorities">
+                    	<span ng-repeat="auth in vm.authorities">
+                    		<span class="" ng-show="auth.name == authority" style="line-height: 14px;">{{auth.description}}</span>
+                    	</span>
+                    </div>
+                </td>
+                <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>
+                <td>{{user.lastModifiedBy}}</td>
+                <td>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>
+                <td class="text-right">
+            		<a ui-sref="user-management.edit({login:user.login})" class="btn btn-secondary btn-sm btn-icon icon-left" data-translate="entity.action.edit">
+						Edit
+					</a>
+					<a ui-sref="user-management.delete({login:user.login})" ng-disabled="vm.currentAccount.login==user.login" class="btn btn-danger btn-sm btn-icon icon-left" data-translate="entity.action.delete">
+						Delete
+					</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

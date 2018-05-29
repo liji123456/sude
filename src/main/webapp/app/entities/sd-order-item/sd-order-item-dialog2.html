@@ -1,0 +1,316 @@
+<style type="text/css">
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	width:100%;
+	line-height: 30px;
+	border-left: 2px solid;
+    border-right: 2px solid;
+}
+table.gridtable th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+	color:#333333;
+}
+table.gridtable td {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+}
+table.gridtable td input,select{
+	border-left:0px;
+	border-top:0px;
+	border-right:0px;
+	border-bottom:1px;
+	width:100%;padding:0;margin:0
+}
+table.sumStyle {
+	background-color: #red;
+}
+
+.width8 tr td{
+	width:8%;
+}
+label[for] {
+	padding-top: 0px;
+}
+</style>
+
+<script>
+	
+	var persons = new Bloodhound({  
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('customerName'), //服务端返回的json中， Person Name对应的字段叫personName   
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,         
+	  remote:{   
+	      url: '/api/_search/searchSdCustomers?query=%QUERY',  //'%QUERY' 将被用户输入的值代替  
+	      filter: function(resp){ //服务端未必直接以json array方式返回搜索结果。如果不是的话，指定一下搜索结果在json中的路径。  
+	            return resp;  
+	        }                   
+	  }  
+	});  
+	  
+	persons.initialize();  
+	
+	//发货人
+	$('#consignerName').typeahead({ //把这个输入框变成auto complete风格  
+	  hint: true,  
+	  highlight: true,  
+	  minLength: 1  
+	},  
+	{  
+	  name: 'thePersons', //其实没什么用，只是用来构建生成的dom元素的css class名  
+	  displayKey: 'customerName', //选择好结果后，输入框里显示的字段  
+	  source: persons.ttAdapter(), //请照抄  
+	  
+	  templates: { //这个函数决定下拉列表中的每一行怎么渲染。   
+	        suggestion: Handlebars.compile('<p>{{customerName}}<span style="font-size:4px;">:{{address}}</span></p>')  //这是个模板，里面的{{xxx}}中的xxx是服务端所返回JSON数据中所对应的字段。下文会说明Handlebars的角色.   
+	      }  
+	}).on('typeahead:selected',function(evt,datum){  
+	    $('#consignerId').val(datum.id); //用户从下拉中选择某项后，刷新那个只读的personId值  
+	    $('#consignerAddress').val(datum.address); //  
+	    $('#consignerMbPhone').val(datum.mobilePhone); //  
+	    $('#consignerPhone').val(datum.phone); //  
+	});   
+	
+	//收货人
+	$('#consigneeName').typeahead({ //把这个输入框变成auto complete风格  
+	  hint: true,  
+	  highlight: true,  
+	  minLength: 1  
+	},  
+	{  
+	  name: 'thePersons', //其实没什么用，只是用来构建生成的dom元素的css class名  
+	  displayKey: 'customerName', //选择好结果后，输入框里显示的字段  
+	  source: persons.ttAdapter(), //请照抄  
+	  
+	  templates: { //这个函数决定下拉列表中的每一行怎么渲染。   
+	        suggestion: Handlebars.compile('<p>{{customerName}}<span style="font-size:4px;">:{{address}}</span></p>')  //这是个模板，里面的{{xxx}}中的xxx是服务端所返回JSON数据中所对应的字段。下文会说明Handlebars的角色.   
+	      }  
+	}).on('typeahead:selected',function(evt,datum){  
+	    $('#consigneeId').val(datum.id); //用户从下拉中选择某项后，刷新那个只读的personId值  
+	    $('#consigneeAddress').val(datum.address); //  
+	    $('#consigneeMbPhone').val(datum.mobilePhone); //  
+	    $('#consigneePhone').val(datum.phone); //  
+	});       
+	
+</script>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="mySdOrderItemLabel" data-translate="sudeApp.sdOrderItem.home.createOrEditLabel">Create or edit a Sd Order Item</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <input type="hidden" class="form-control" id="id" name="id"  ng-model="vm.sdOrderItem.id"  />
+		<div width="100%" class="">
+		<div style="line-height: 32px;">
+			<div style="width:33%;float:left;text-align: left;;">运单号:&nbsp;&nbsp;<span style="color:red;font-weight:bold;font-family: monospace;font-size: 21px;">0000033</span></div>
+			<div style="width:34%;float:left;text-align: center;font-size: 24px;letter-spacing: 10px;margin-top: -10px;">货物托运凭证</div>
+			<div style="width:33%;float:right;text-align: right;;">运单号受理日期:&nbsp;&nbsp;
+			<div class="col-sm-2">
+                <div class="input-group">
+                    <input id="field_departureTime" type="text" class="form-control" name="departureTime" datetime-picker="{{dateformat}}" ng-model="vm.sdOrderHeader.departureTime" is-open="vm.datePickerOpenStatus.departureTime"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('departureTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+			&nbsp;&nbsp;</div>
+		</div>
+		<table class="gridtable" style="border-top: 2px solid;" >
+			<tr>
+				<td>启&nbsp;&nbsp;运&nbsp;&nbsp;站</td>
+				<td><select><option>长乐</option></select></td>
+				<td>到&nbsp;&nbsp;达&nbsp;&nbsp;站</td>
+				<td><select><option>温州</option></select></td>
+				<td>经&nbsp;&nbsp;&nbsp;&nbsp;由</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>货&nbsp;&nbsp;&nbsp;&nbsp;号</td>
+				<td><input type="text" name="" value="" /></td>
+			</tr>
+			<tr>
+				<td>发&nbsp;&nbsp;货&nbsp;&nbsp;人</td>
+				<td colspan="3">
+					<input type="text" name="consignerName" id="consignerName" value="" ng-model="vm.sdOrderItem.consignerName"  placeHolder="输入姓名或地址" />
+					<input type="hidden" name="consignerId" id="consignerId" value="" ng-model="vm.sdOrderItem.consignerId" />
+				</td>
+				<td>联系电话</td>
+				<td><input type="text" name="consignerPhone" id="consignerPhone" ng-model="consignerPhone" value="" ng-model="vm.sdOrderItem.consignerPhone"/></td>
+				<td>手&nbsp;&nbsp;机&nbsp;&nbsp;号</td>
+				<td><input type="text" name="consignerMbPhone" id="consignerMbPhone" value="" ng-model="vm.sdOrderItem.consignerMbPhone"/>
+				</td>
+			</tr>
+			<tr>
+				<td>收&nbsp;&nbsp;货&nbsp;&nbsp;人</td>
+				<td colspan="3">
+					<input type="text" name="consigneeName" id="consigneeName" value="" ng-model="vm.sdOrderItem.consigneeName" placeHolder="输入姓名或地址" />
+					<input type="hidden" name="consigneeId" id="consigneeId" value="" ng-model="vm.sdOrderItem.consigneeId"/>
+				</td>
+				<td>联系电话</td>
+				<td><input type="text" name="consigneePhone" id="consigneePhone" value="" ng-model="vm.sdOrderItem.consigneePhone"/></td>
+				<td>手&nbsp;&nbsp;机&nbsp;&nbsp;号</td>
+				<td><input type="text" name="consigneeMbPhone" id="consigneeMbPhone" value="" ng-model="vm.sdOrderItem.consigneeMbPhone"/></td>
+			</tr>
+			<tr>
+				<td>收货地址</td>
+				<td colspan="3"><input type="text" name="consigneeAddress" id="consigneeAddress" value="" /></td>
+				<td>接货车号</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>接货司机</td>
+				<td><input type="text" name="" value="" /></td>
+			</tr>
+			<tr>
+				<td>发货地址</td>
+				<td ><input type="text" name="consignerAddress" id="consignerAddress" value="" /></td>
+				<td>银行卡号</td>
+				<td><input type="text" name="" value="" ng-model="vm.sdOrderItem.consigneeMbPhone"/></td>
+				<td>开&nbsp;&nbsp;户&nbsp;&nbsp;行</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>开&nbsp;&nbsp;户&nbsp;&nbsp;名</td>
+				<td><input type="text" name="" value="" /></td>
+			</tr>
+			<tr>
+				<td>身份证号</td>
+				<td colspan="3"><input type="text" name="" value="" /></td>
+				<td></td>
+				<td colspan="3"></td>
+			</tr>
+		</table>
+		
+		<table class="gridtable">
+		<tr>
+			<th>品名</th>
+			<th>件数</th>
+			<th>重量</th>
+			<th>体积</th>
+			<th>包装</th>
+			<th>运费</th>
+			<th>回扣</th>
+			<th>代收货款</th>
+			<th>送货费</th>
+			<th>申明价值</th>
+			<th>保险费</th>
+		</tr>
+		<tr>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+			<td><input type="text" name="" value="" /></td>
+		</tr>
+		<tr >
+			<td>&nbsp;</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		</table>
+		
+		<table class="gridtable width8" style="border-bottom: 2px solid;">
+			<tr>
+				<td>付款方式</td>
+				<td>
+					<select name="" >
+						<option>1111</option>
+						<option>1111</option>
+						<option>1111</option>
+						<option>1111</option>
+						<option>1111</option>
+					</select>
+				</td>
+				<td>现&nbsp;&nbsp;&nbsp;&nbsp;付</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>提&nbsp;&nbsp;&nbsp;&nbsp;付</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>回&nbsp;&nbsp;单&nbsp;&nbsp;付</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>月&nbsp;&nbsp;结</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>贷&nbsp;&nbsp;扣&nbsp;&nbsp;款</td>
+				<td><input type="text" name="" value="" /></td>
+			</tr>
+			<tr>
+				<td>运输方式</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>回单要求</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>交接方式</td>
+				<td><input type="text" name="" value="" /></td>
+				<td>其他支出</td>
+				<td colspan="2"><input type="text" name="" value="" /></td>
+				<td>费用说明</td>
+				<td colspan="2"><input type="text" name="" value="" /></td>
+			</tr>
+			<tr>
+				<td>备&nbsp;&nbsp;&nbsp;&nbsp;注</td>
+				<td colspan="5"><input type="text" name="" value="" /></td>
+				<td>其&nbsp;&nbsp;&nbsp;&nbsp;他</td>
+				<td colspan="5"><input type="text" name="" value="" /></td>
+			</tr>
+		</table>
+		<div style="line-height: 32px;">
+			<div style="float:left;"><input type="checkbox" id="a1" /><label for="a1" >打标签&nbsp;&nbsp;</label></div>
+			<div style="float:left;"><input type="checkbox" id="a2" /><label for="a2">打信封&nbsp;&nbsp;</label></div>
+			<div style="float:left;"><input type="checkbox" id="a3" /><label for="a3">打回扣凭证&nbsp;&nbsp;</label></div>
+			<div style="float:left;"><input type="checkbox" id="a4" /><label for="a4">打装卸单&nbsp;&nbsp;</label></div>
+			<div style="float:left;"><input type="checkbox" id="a4" /><label for="a4">发送短信&nbsp;&nbsp;</label></div>
+			<div style="float:right;">制单人：<span style="font-size: 15px;color: #015F84;" >秀腾宇&nbsp;&nbsp;</span></div>
+		</div>
+		</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

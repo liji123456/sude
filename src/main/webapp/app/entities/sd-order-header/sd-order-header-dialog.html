@@ -1,0 +1,209 @@
+<style type="text/css">
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	width:100%;
+	line-height: 30px;
+	border-left: 2px solid;
+    border-right: 2px solid;
+}
+table.gridtable th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+	color:#333333;
+}
+table.gridtable td {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #666666;
+}
+table.gridtable td input,select{
+	border-left:0px;
+	border-top:0px;
+	border-right:0px;
+	border-bottom:1px;
+	width:100%;padding:0;margin:0;
+	padding-left: 12px;
+}
+table.sumStyle {
+	background-color: #red;
+}
+
+.width8 tr td{
+	width:8%;
+}
+label[for] {
+	padding-top: 0px;
+}
+.input-align-center td input,select{
+	text-align:center;
+}
+</style>
+
+    
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="mySdOrderItemLabel" data-translate="sudeApp.sdOrderHeader.home.createOrEditLabel">Create or edit a Sd Order Item</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+		<div width="100%" class="">
+		<div style="line-height: 32px;">
+			<div style="text-align: center;font-size: 24px;letter-spacing: 10px;margin-top: -10px; margin-bottom: 14px;">发货单</div>
+		</div>
+		<table class="gridtable" style="border-top: 2px solid;" >
+			<tr>
+				<td>起运地</td>
+				<td>
+					<select class="form-control" ng-change="changeStation(vm.sdOrderHeader.fromStation)" ng-model="vm.sdOrderHeader.fromStation" >
+						<option ng-repeat="sdStation in vm.sdStations " value="{{sdStation.id}}" stationNM="{{sdStation.stationNM}}">{{sdStation.stationName}}</option>
+					</select>
+				</td>
+				<td>目的地</td>
+				<td>
+					<input type="text" name="toStationName" autocomplete="off" id="toStationName"  ng-model="vm.sdOrderHeader.toStationName"  placeHolder="" typeahead-on-select="setconStationDetail($item, $model)" uib-typeahead="sdStation as sdStation.stationName for sdStation in getStation($viewValue)"  />
+					<input type="hidden" ng-model="vm.sdOrderItem.toStation" />
+				</td>
+				<td>卸货地</td>
+				<td >
+					<input type="text" name="unloadPlace" autocomplete="off" id="unloadPlace"  ng-model="vm.sdOrderHeader.unloadPlace"  placeHolder="" typeahead-on-select="setconStationUnload($item, $model)" uib-typeahead="sdStation as sdStation.stationName for sdStation in getStation($viewValue)"  />
+				</td>
+				<td style="width:10%">合同编号</td>
+				<td style="width:12%">
+					<input type="text" ng-model="vm.sdOrderHeader.orderHeaderNo"/>
+				</td>
+				
+			</tr>
+			<tr>
+				<td style="width:10%">车号</td>
+				<td style="width:12%"><input type="text" ng-model="vm.sdOrderHeader.carNo" typeahead-on-select="setconCarNo($item, $model)" uib-typeahead="carInfo as carInfo.id for carInfo in getCars($viewValue)" /></td>
+				<td style="width:10%">司机姓名</td>
+				<td style="width:12%">
+					<input type="text" ng-model="vm.sdOrderHeader.driverName" typeahead-on-select="setconDriver($item, $model)" uib-typeahead="driver as driver.driverName for driver in getDrivers($viewValue)"/>
+					<input type="hidden" ng-model="vm.sdOrderHeader.driverId"/>
+					</td>
+				<td style="width:10%">联系电话</td>
+				<td style="width:12%"><input type="text" ng-model="vm.sdOrderHeader.mobilePhone"  /></td>
+				<td>发车批次</td>
+				<td >
+					<input type="text" ng-model="vm.sdOrderHeader.departBatch" readonly="readonly" />
+				</td>
+				
+			</tr>
+			
+		</table>
+		<table class="gridtable" style="border-bottom: 2px solid;" >
+			<tr>
+				<td style="width:12%">现付运费</td>
+				<td style="width:13%"><input type="number"  ng-model="vm.sdOrderHeader.cashPay"  /></td>
+				<td style="width:12%">司机代收款</td>
+				<td style="width:13%" ><input type="number" ng-model="vm.sdOrderHeader.driverCollection"  /></td>
+				<td style="width:12%">本车装卸费</td>
+				<td style="width:13%"><input type="number" ng-model="vm.sdOrderHeader.handlingCharges" /></td>
+				<td style="width:12%">本车接货费</td>
+				<td style="width:13%"><input type="number" ng-model="vm.sdOrderHeader.receiveShipment" /></td>
+			</tr>
+			<tr>
+				<td >回付运费</td>
+				<td ><input type="number" ng-model="vm.sdOrderHeader.reply" /></td>
+				<td>油卡卡号</td>
+				<td ><input type="text" ng-model="vm.sdOrderHeader.oilCardNo" /></td>
+				<td>油卡金额</td>
+				<td ><input type="number" ng-model="vm.sdOrderHeader.oilCardBlance" /></td>
+				<td>运费合计</td>
+				<td ><input type="number" readonly="readonly" ng-model="vm.sdOrderHeader.freightSum" /></td>
+				
+			</tr>
+			<tr>
+				<td>本车其他费用</td>
+				<td ><input type="number"  ng-model="vm.sdOrderHeader.otherPay" value="" /></td>
+				<td>发车日期</td>
+				<td>
+				<input type="datetime-local" datetime-picker="{{dateformat}}" ng-model="vm.sdOrderHeader.departureTime"  />
+				</td>
+				<td>本车载重</td>
+				<td><input type="text" ng-model="vm.sdOrderHeader.weight" value="" /></td>
+				<td>实际重量</td>
+				<td><input type="text" ng-model="vm.sdOrderHeader.practical" /></td>
+			</tr>
+				<td>配载员</td>
+				<td><input type="text" ng-model="vm.sdOrderHeader.loadParter" /></td>
+				<td colspan="6"> </td>
+			<tr>
+			</tr>
+			
+		</table>
+		</div>
+    </div>
+    
+	<div class="panel panel-default collapsed"><!-- Add class "collapsed" to minimize the panel -->
+		<div class="panel-heading">
+			<h3 class="panel-title">托运单列表</h3>
+			
+			<div class="panel-options">
+				
+				<a href="#" data-toggle="panel">
+					<span class="collapse-icon">&ndash;</span>
+					<span class="expand-icon">+</span>
+				</a>
+				
+			</div>
+		</div>
+		
+		<div class="panel-body">
+			<div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th ><span data-translate="global.field.id">ID</span> </th>
+                    <th ><span data-translate="sudeApp.sdOrderItem.consignDate">Consign Date</span> </th>
+                    <th ><span data-translate="sudeApp.sdOrderItem.fromStation">From Station</span> </th>
+                    <th ><span data-translate="sudeApp.sdOrderItem.toStation">To Station</span> </th>
+                    <th ><span data-translate="sudeApp.sdOrderItem.middleStation">Middle Station</span> </th>
+                    <th ><span data-translate="sudeApp.sdOrderItem.consigneeName">Consignee Name</span> </th>
+                    <th ><span data-translate="sudeApp.sdOrderItem.consigneeAddress">Consignee Address</span> </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="sdOrderItem in vm.sdOrderItems track by sdOrderItem.id">
+                    <td>{{sdOrderItem.id}}</td>
+                    <td>{{sdOrderItem.consignDate | date:'mediumDate'}}</td>
+                    <td>{{sdOrderItem.fromStationName}}</td>
+                    <td>{{sdOrderItem.toStationName}}</td>
+                    <td>{{sdOrderItem.middleStation}}</td>
+                    <td>{{sdOrderItem.consigneeName}}</td>
+                    <td>{{sdOrderItem.consigneeAddress}}</td>
+                    <td class="text-right">
+                    	<a ui-sref="sd-order-header.edit.edit({idm:sdOrderItem.id})" class="btn btn-secondary btn-sm btn-icon icon-left" data-translate="entity.action.edit">
+							Edit
+						</a>
+						<a ui-sref="sd-order-header.edit.delete({idm:sdOrderItem.id})"  class="btn btn-danger btn-sm btn-icon icon-left" data-translate="entity.action.delete">
+							Delete
+						</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+		</div>
+	</div>
+					
+				
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
