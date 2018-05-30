@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span data-translate="sudeApp.userApplicationForm.detail.title">User Application Form</span> {{vm.userApplicationForm.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="sudeApp.userApplicationForm.appFormCode">App Form Code</span></dt>
+        <dd>
+            <span>{{vm.userApplicationForm.appFormCode}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.userApplicationForm.status">Status</span></dt>
+        <dd>
+            <span>{{vm.userApplicationForm.status}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.userApplicationForm.pay_premium">Pay Premium</span></dt>
+        <dd>
+            <span>{{vm.userApplicationForm.pay_premium}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.userApplicationForm.startDate">Start Date</span></dt>
+        <dd>
+            <span>{{vm.userApplicationForm.startDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.userApplicationForm.endDate">End Date</span></dt>
+        <dd>
+            <span>{{vm.userApplicationForm.endDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.userApplicationForm.insuranceNo">Insurance No</span></dt>
+        <dd>
+            <span>{{vm.userApplicationForm.insuranceNo}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.userApplicationForm.organization">Organization</span></dt>
+        <dd>
+            <a ui-sref="organization-detail({id:vm.userApplicationForm.organizationId})">{{vm.userApplicationForm.organizationId}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="user-application-form-detail.edit({id:vm.userApplicationForm.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

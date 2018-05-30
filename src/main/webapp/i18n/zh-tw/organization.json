@@ -1,0 +1,31 @@
+{
+    "sudeApp": {
+        "organization" : {
+            "home": {
+                "title": "Organizations",
+                "createLabel": "Create a new Organization",
+                "createOrEditLabel": "Create or edit a Organization",
+                "search": "Search for Organization"
+            },
+            "created": "A new Organization is created with identifier {{ param }}",
+            "updated": "A Organization is updated with identifier {{ param }}",
+            "deleted": "A Organization is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Organization {{ id }}?"
+            },
+            "detail": {
+                "title": "Organization"
+            },
+            "lawman": "Lawman",
+            "orgCode": "Org Code",
+            "orgName": "Org Name",
+            "applyStatus": "Apply Status",
+            "cityCode": "City Code",
+            "provinceCode": "Province Code",
+            "countyCode": "County Code",
+            "orgType": "Org Type",
+            "createBy": "Create By",
+            "createDate": "Create Date"
+        }
+    }
+}

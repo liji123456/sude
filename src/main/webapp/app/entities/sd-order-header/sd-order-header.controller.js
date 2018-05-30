@@ -4,7 +4,7 @@
     angular
         .module('sudeApp')
         .controller('SdOrderHeaderController', SdOrderHeaderController);
-
+    //.$inject注入
     SdOrderHeaderController.$inject = ['$scope', '$state', 'SdOrderHeader', 'SdOrderHeaderSearch', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants'];
 
     function SdOrderHeaderController ($scope, $state, SdOrderHeader, SdOrderHeaderSearch, ParseLinks, AlertService, pagingParams, paginationConstants) {

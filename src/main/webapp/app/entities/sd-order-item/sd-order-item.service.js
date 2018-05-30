@@ -1,8 +1,11 @@
 (function() {
     'use strict';
+    // 用 Factory 就是创建一个对象，为它添加属性，然后把这个对象返回出来。
+    // 你把 service 传进 controller 之后，在 controller 里这个对象里的属性就可以通过 factory 使用了。
     angular
         .module('sudeApp')
-        .factory('SdOrderItem', SdOrderItem).factory('SdOrderItemLoading', SdOrderItemLoading)
+        .factory('SdOrderItem', SdOrderItem).
+         factory('SdOrderItemLoading', SdOrderItemLoading)
         .factory('SdOrderItemUpdate', SdOrderItemUpdate)
         .factory('SdOrderItemQuery', SdOrderItemQuery)
         ;

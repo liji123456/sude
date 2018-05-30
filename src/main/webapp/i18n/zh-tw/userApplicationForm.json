@@ -1,0 +1,28 @@
+{
+    "sudeApp": {
+        "userApplicationForm" : {
+            "home": {
+                "title": "User Application Forms",
+                "createLabel": "Create a new User Application Form",
+                "createOrEditLabel": "Create or edit a User Application Form",
+                "search": "Search for User Application Form"
+            },
+            "created": "A new User Application Form is created with identifier {{ param }}",
+            "updated": "A User Application Form is updated with identifier {{ param }}",
+            "deleted": "A User Application Form is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete User Application Form {{ id }}?"
+            },
+            "detail": {
+                "title": "User Application Form"
+            },
+            "appFormCode": "App Form Code",
+            "status": "Status",
+            "pay_premium": "Pay Premium",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "insuranceNo": "Insurance No",
+            "organization": "Organization"
+        }
+    }
+}

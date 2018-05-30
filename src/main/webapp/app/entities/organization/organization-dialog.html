@@ -1,0 +1,132 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myOrganizationLabel" data-translate="sudeApp.organization.home.createOrEditLabel">Create or edit a Organization</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+<!--         <div class="form-group" ng-show="vm.organization.id"> -->
+<!--             <label for="id" data-translate="global.field.id">ID</label> -->
+            <input type="hidden" class="form-control" id="id" name="id"
+                    ng-model="vm.organization.id"  />
+<!--         </div> -->
+		<div class="form-group">
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.lawman" for="field_lawman">Lawman</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="lawman" id="field_lawman"
+                    ng-model="vm.organization.lawman"  />
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.orgCode" for="field_orgCode">Org Code</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="orgCode" id="field_orgCode"
+                    ng-model="vm.organization.orgCode" required />
+            </div>
+            <div ng-show="editForm.orgCode.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.orgCode.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.orgName" for="field_orgName">Org Name</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="orgName" id="field_orgName"
+                    ng-model="vm.organization.orgName"  />
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.applyStatus" for="field_applyStatus">Apply Status</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="applyStatus" id="field_applyStatus"
+                    ng-model="vm.organization.applyStatus" required />
+            </div>
+            <div ng-show="editForm.applyStatus.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.applyStatus.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.cityCode" for="field_cityCode">City Code</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="cityCode" id="field_cityCode"
+                    ng-model="vm.organization.cityCode"  />
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.provinceCode" for="field_provinceCode">Province Code</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="provinceCode" id="field_provinceCode"
+                    ng-model="vm.organization.provinceCode" required />
+            </div>
+            <div ng-show="editForm.provinceCode.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.provinceCode.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.countyCode" for="field_countyCode">County Code</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="countyCode" id="field_countyCode"
+                    ng-model="vm.organization.countyCode" required />
+            </div>
+            <div ng-show="editForm.countyCode.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.countyCode.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.orgType" for="field_orgType">Org Type</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="orgType" id="field_orgType"
+                    ng-model="vm.organization.orgType"  />
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.createBy" for="field_createBy">Create By</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="createBy" id="field_createBy"
+                    ng-model="vm.organization.createBy" required />
+            </div>
+            <div ng-show="editForm.createBy.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.createBy.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.organization.createDate" for="field_createDate">Create Date</label>
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input id="field_createDate" type="text" class="form-control" name="createDate" datetime-picker="{{dateformat}}" ng-model="vm.organization.createDate" is-open="vm.datePickerOpenStatus.createDate"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('createDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+	</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

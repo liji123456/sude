@@ -1,0 +1,59 @@
+
+<div>
+    <h2><span data-translate="sudeApp.organization.detail.title">Organization</span> {{vm.organization.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="sudeApp.organization.lawman">Lawman</span></dt>
+        <dd>
+            <span>{{vm.organization.lawman}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.orgCode">Org Code</span></dt>
+        <dd>
+            <span>{{vm.organization.orgCode}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.orgName">Org Name</span></dt>
+        <dd>
+            <span>{{vm.organization.orgName}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.applyStatus">Apply Status</span></dt>
+        <dd>
+            <span>{{vm.organization.applyStatus}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.cityCode">City Code</span></dt>
+        <dd>
+            <span>{{vm.organization.cityCode}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.provinceCode">Province Code</span></dt>
+        <dd>
+            <span>{{vm.organization.provinceCode}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.countyCode">County Code</span></dt>
+        <dd>
+            <span>{{vm.organization.countyCode}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.orgType">Org Type</span></dt>
+        <dd>
+            <span>{{vm.organization.orgType}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.createBy">Create By</span></dt>
+        <dd>
+            <span>{{vm.organization.createBy}}</span>
+        </dd>
+        <dt><span data-translate="sudeApp.organization.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{vm.organization.createDate | date:'medium'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="organization-detail.edit({id:vm.organization.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

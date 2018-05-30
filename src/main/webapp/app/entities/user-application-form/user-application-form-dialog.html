@@ -1,0 +1,91 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myUserApplicationFormLabel" data-translate="sudeApp.userApplicationForm.home.createOrEditLabel">Create or edit a User Application Form</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+<!--         <div class="form-group" ng-show="vm.userApplicationForm.id"> -->
+<!--             <label for="id" data-translate="global.field.id">ID</label> -->
+            <input type="hidden" class="form-control" id="id" name="id"
+                    ng-model="vm.userApplicationForm.id"  />
+<!--         </div> -->
+		<div class="form-group">
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.userApplicationForm.appFormCode" for="field_appFormCode">App Form Code</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="appFormCode" id="field_appFormCode"
+                    ng-model="vm.userApplicationForm.appFormCode"  />
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.userApplicationForm.status" for="field_status">Status</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="status" id="field_status"
+                    ng-model="vm.userApplicationForm.status" required />
+            </div>
+            <div ng-show="editForm.status.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.status.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.userApplicationForm.pay_premium" for="field_pay_premium">Pay Premium</label>
+            <div class="col-sm-2">
+            	<input type="number" class="form-control" name="pay_premium" id="field_pay_premium"
+                    ng-model="vm.userApplicationForm.pay_premium"  />
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.userApplicationForm.startDate" for="field_startDate">Start Date</label>
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input id="field_startDate" type="text" class="form-control" name="startDate" datetime-picker="{{dateformat}}" ng-model="vm.userApplicationForm.startDate" is-open="vm.datePickerOpenStatus.startDate"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.userApplicationForm.endDate" for="field_endDate">End Date</label>
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <input id="field_endDate" type="text" class="form-control" name="endDate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.userApplicationForm.endDate" is-open="vm.datePickerOpenStatus.endDate"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('endDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div >
+            <label class="col-sm-1 control-label" data-translate="sudeApp.userApplicationForm.insuranceNo" for="field_insuranceNo">Insurance No</label>
+            <div class="col-sm-2">
+            	<input type="text" class="form-control" name="insuranceNo" id="field_insuranceNo"
+                    ng-model="vm.userApplicationForm.insuranceNo"  />
+            </div>
+        </div>
+	</div>
+        <div class="form-group">
+            <label data-translate="sudeApp.userApplicationForm.organization" for="field_organization">Organization</label>
+            <select class="form-control" id="field_organization" name="organization" ng-model="vm.userApplicationForm.organizationId" ng-options="organization.id as organization.id for organization in vm.organizations"            >
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

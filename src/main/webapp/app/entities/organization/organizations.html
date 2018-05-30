@@ -1,0 +1,94 @@
+<div>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="organization.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs"  data-translate="sudeApp.organization.home.createLabel">
+                        Create new Organization
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'sudeApp.organization.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                            <button class="btn btn-info" ng-click="vm.clear()">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lawman"><span data-translate="sudeApp.organization.lawman">Lawman</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="orgCode"><span data-translate="sudeApp.organization.orgCode">Org Code</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="orgName"><span data-translate="sudeApp.organization.orgName">Org Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="applyStatus"><span data-translate="sudeApp.organization.applyStatus">Apply Status</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="cityCode"><span data-translate="sudeApp.organization.cityCode">City Code</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="provinceCode"><span data-translate="sudeApp.organization.provinceCode">Province Code</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="countyCode"><span data-translate="sudeApp.organization.countyCode">County Code</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="orgType"><span data-translate="sudeApp.organization.orgType">Org Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createBy"><span data-translate="sudeApp.organization.createBy">Create By</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createDate"><span data-translate="sudeApp.organization.createDate">Create Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="organization in vm.organizations track by organization.id">
+                    <td><a ui-sref="organization-detail({id:organization.id})">{{organization.id}}</a></td>
+                    <td>{{organization.lawman}}</td>
+                    <td>{{organization.orgCode}}</td>
+                    <td>{{organization.orgName}}</td>
+                    <td>{{organization.applyStatus}}</td>
+                    <td>{{organization.cityCode}}</td>
+                    <td>{{organization.provinceCode}}</td>
+                    <td>{{organization.countyCode}}</td>
+                    <td>{{organization.orgType}}</td>
+                    <td>{{organization.createBy}}</td>
+                    <td>{{organization.createDate | date:'medium'}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="organization-detail({id:organization.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="organization.edit({id:organization.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="organization.delete({id:organization.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>
