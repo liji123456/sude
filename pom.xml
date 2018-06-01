@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <version>1.4.0.RELEASE</version>
         <relativePath />
-    </parent>1122
+    </parent>
 
     <groupId>com.sude.sd</groupId>
     <artifactId>sude</artifactId>
@@ -19,7 +19,7 @@
         <maven>3.0.0</maven>
     </prerequisites>
 
-
+<!--liji-->
     <properties>
         <assertj-core.version>3.5.2</assertj-core.version>
         <awaitility.version>1.7.0</awaitility.version>
@@ -71,10 +71,10 @@
     </properties>
 
     <dependencies>
-    	<dependency>  
-          <groupId>org.springframework.boot</groupId>  
-          <artifactId>spring-boot-starter-redis</artifactId>  
-     	</dependency> 
+    	<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-redis</artifactId>
+     	</dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate4</artifactId>
